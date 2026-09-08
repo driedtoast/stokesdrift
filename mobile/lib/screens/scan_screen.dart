@@ -3,6 +3,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:geolocator/geolocator.dart';
 import '../theme/theme.dart';
 import '../db/database.dart';
+import '../services/review_prompt.dart';
 import 'item_detail_screen.dart';
 
 class ScanScreen extends StatefulWidget {
@@ -88,6 +89,8 @@ class _ScanScreenState extends State<ScanScreen> {
           position.latitude,
           position.longitude,
         );
+        // Record successful scan for review prompt
+        await ReviewPrompt.recordScan();
       } else {
         // GPS denied — still navigate to item but warn
         if (mounted) {

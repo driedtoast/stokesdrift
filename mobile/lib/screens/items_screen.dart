@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../theme/theme.dart';
 import '../db/database.dart';
 import '../navigation/app_navigator.dart';
+import '../services/csv_export.dart';
+import '../services/plan_service.dart';
 
 class ItemsScreen extends StatefulWidget {
   const ItemsScreen({super.key});
@@ -15,18 +17,26 @@ class _ItemsScreenState extends State<ItemsScreen> {
   List<Item> _filteredItems = [];
   bool _loading = true;
   String _searchQuery = '';
+  bool _canExport = false;
   final _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _loadItems();
+    _loadData();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _loadItems();
+  }
+
+  Future<void> _loadData() async {
+    final canExport = await PlanService.canExportCsv();
+    if (mounted) {
+      setState(() => _canExport = canExport);
+    }
   }
 
   Future<void> _loadItems() async {
@@ -74,6 +84,60 @@ class _ItemsScreenState extends State<ItemsScreen> {
     );
   }
 
+  void _showExportDialog() {
+    if (!_canExport) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Upgrade to Export'),
+          content: const Text(
+            'CSV export is available on the Crew and Enterprise plans. '
+            'Upgrade your plan to export your inventory data.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Export to CSV'),
+        content: const Text(
+          'Export all items and their most recent locations as a CSV file. '
+          'You can share or save the exported file.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              try {
+                await CsvExportService.exportAndShare();
+              } catch (e) {
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Export failed: $e')),
+                  );
+                }
+              }
+            },
+            child: const Text('Export'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -87,6 +151,11 @@ class _ItemsScreenState extends State<ItemsScreen> {
       appBar: AppBar(
         title: const Text('Items'),
         actions: [
+          IconButton(
+            onPressed: _showExportDialog,
+            icon: const Icon(Icons.download),
+            tooltip: 'Export CSV',
+          ),
           Padding(
             padding: const EdgeInsets.only(right: AppSpacing.sm),
             child: TextButton(

@@ -1,6 +1,7 @@
 import { useEffect } from 'preact/hooks';
 import { items, locations, isLoading, currentTeam } from '../lib/store';
 import { fetchItems, fetchLocations } from '../lib/actions';
+import { generateCsv, downloadCsv, canExportCsv } from '../lib/csv_export';
 import { Link, route } from 'preact-router';
 import { StatCard } from '../components/Cards';
 
@@ -15,6 +16,17 @@ export function DashboardPage() {
   }, [teamId]);
 
   const recentItems = items.value.slice(0, 5);
+  const exportAllowed = canExportCsv();
+
+  function handleExport() {
+    if (!exportAllowed) {
+      alert('CSV export is available on the Crew and Enterprise plans. Upgrade your plan to export your inventory data.');
+      return;
+    }
+    const csv = generateCsv(items.value, locations.value);
+    const date = new Date().toISOString().substring(0, 10);
+    downloadCsv(csv, `stokesdrift_export_${date}.csv`);
+  }
 
   return (
     <div>
@@ -31,6 +43,16 @@ export function DashboardPage() {
         <div class="flex gap-3">
           <Link href="/items/add" class="btn-primary">+ Add Item</Link>
           <Link href="/locations/add" class="btn-ghost">+ Add Location</Link>
+          <button
+            onClick={handleExport}
+            class="btn-ghost flex items-center gap-2"
+            title={exportAllowed ? 'Export inventory to CSV' : 'Upgrade to export'}
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Export CSV
+          </button>
         </div>
       </div>
 

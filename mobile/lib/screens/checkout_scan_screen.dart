@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import '../theme/theme.dart';
 import '../db/database.dart';
 import '../components/components.dart';
+import '../services/review_prompt.dart';
 
 class CheckoutScanScreen extends StatefulWidget {
   final CheckoutSession session;
@@ -284,7 +285,7 @@ class _CheckoutScanScreenState extends State<CheckoutScanScreen> {
 
 // ─── Checkout Result Screen ─────────────────────────────────────────────────
 
-class _CheckoutResultScreen extends StatelessWidget {
+class _CheckoutResultScreen extends StatefulWidget {
   final CheckoutSession session;
   final Set<String> checkedOutIds;
   final List<Item> missingItems;
@@ -296,8 +297,13 @@ class _CheckoutResultScreen extends StatelessWidget {
   });
 
   @override
+  State<_CheckoutResultScreen> createState() => _CheckoutResultScreenState();
+}
+
+class _CheckoutResultScreenState extends State<_CheckoutResultScreen> {
+  @override
   Widget build(BuildContext context) {
-    final allGood = missingItems.isEmpty;
+    final allGood = widget.missingItems.isEmpty;
 
     return Scaffold(
       backgroundColor: AppColors.neutral,
@@ -331,7 +337,7 @@ class _CheckoutResultScreen extends StatelessWidget {
             Text(
               allGood
                   ? 'All items checked out!'
-                  : '${missingItems.length} item${missingItems.length == 1 ? '' : 's'} missing!',
+                  : '${widget.missingItems.length} item${widget.missingItems.length == 1 ? '' : 's'} missing!',
               style: AppTypography.h1.copyWith(
                 color: allGood ? AppColors.success : AppColors.error,
               ),
@@ -340,8 +346,8 @@ class _CheckoutResultScreen extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
             Text(
               allGood
-                  ? '${checkedOutIds.length} item${checkedOutIds.length == 1 ? '' : 's'} scanned for "${session.name}"'
-                  : 'Scanned ${checkedOutIds.length} item${checkedOutIds.length == 1 ? '' : 's'}. The following items were not checked out:',
+                  ? '${widget.checkedOutIds.length} item${widget.checkedOutIds.length == 1 ? '' : 's'} scanned for "${widget.session.name}"'
+                  : 'Scanned ${widget.checkedOutIds.length} item${widget.checkedOutIds.length == 1 ? '' : 's'}. The following items were not checked out:',
               style: AppTypography.body.copyWith(color: AppColors.secondary),
               textAlign: TextAlign.center,
             ),
@@ -350,16 +356,16 @@ class _CheckoutResultScreen extends StatelessWidget {
 
             // Session info
             AppCard(
-              title: 'Session: ${session.name}',
-              subtitle: 'Created ${session.createdAt.toLocal().toString().split('.').first.substring(0, 16)}',
+              title: 'Session: ${widget.session.name}',
+              subtitle: 'Created ${widget.session.createdAt.toLocal().toString().split('.').first.substring(0, 16)}',
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      _statBadge('${checkedOutIds.length}', 'Scanned', AppColors.success),
+                      _statBadge('${widget.checkedOutIds.length}', 'Scanned', AppColors.success),
                       const SizedBox(width: AppSpacing.sm),
-                      _statBadge('${missingItems.length}', 'Missing', missingItems.isEmpty ? AppColors.secondary : AppColors.error),
+                      _statBadge('${widget.missingItems.length}', 'Missing', widget.missingItems.isEmpty ? AppColors.secondary : AppColors.error),
                     ],
                   ),
                 ],
@@ -367,12 +373,12 @@ class _CheckoutResultScreen extends StatelessWidget {
             ),
 
             // Missing items list
-            if (missingItems.isNotEmpty) ...[
+            if (widget.missingItems.isNotEmpty) ...[
               const SizedBox(height: AppSpacing.md),
               AppCard(
                 title: '⚠ Missing Items',
                 child: Column(
-                  children: missingItems.map((item) => Padding(
+                  children: widget.missingItems.map((item) => Padding(
                     padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
                     child: Row(
                       children: [
@@ -414,9 +420,12 @@ class _CheckoutResultScreen extends StatelessWidget {
             // Actions
             AppButton(
               title: 'DONE',
-              onPressed: () {
-                // Pop back to home
-                Navigator.of(context).popUntil((route) => route.isFirst);
+              onPressed: () async {
+                // Record checkout completion for review prompt
+                await ReviewPrompt.recordCheckoutComplete();
+                if (context.mounted) {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                }
               },
             ),
             const SizedBox(height: AppSpacing.sm),
@@ -424,7 +433,7 @@ class _CheckoutResultScreen extends StatelessWidget {
               title: 'DELETE SESSION',
               variant: AppButtonVariant.ghost,
               onPressed: () async {
-                await DatabaseService.deleteCheckoutSession(session.id);
+                await DatabaseService.deleteCheckoutSession(widget.session.id);
                 if (context.mounted) {
                   Navigator.of(context).popUntil((route) => route.isFirst);
                 }

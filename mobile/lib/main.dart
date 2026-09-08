@@ -3,6 +3,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'db/database.dart';
 import 'splash/splash_screen.dart';
+import 'screens/onboarding_screen.dart';
 import 'navigation/app_navigator.dart';
 import 'theme/theme.dart';
 
@@ -26,18 +27,30 @@ class StokesdriftApp extends StatefulWidget {
 
 class _StokesdriftAppState extends State<StokesdriftApp> {
   bool _showSplash = true;
+  bool _showOnboarding = false;
 
   @override
   void initState() {
     super.initState();
-    // DB is already initialised by main(), so we can mark ready immediately.
-    // If you add more async work (e.g. auth, remote config), call extend()
-    // before it starts and markReady() when it finishes.
     SplashController.markReady();
+    _checkOnboarding();
+  }
+
+  Future<void> _checkOnboarding() async {
+    final complete = await isOnboardingComplete();
+    if (mounted) {
+      setState(() {
+        _showOnboarding = !complete;
+      });
+    }
   }
 
   void _onSplashComplete() {
     setState(() => _showSplash = false);
+  }
+
+  void _onOnboardingComplete() {
+    setState(() => _showOnboarding = false);
   }
 
   @override
@@ -48,7 +61,9 @@ class _StokesdriftAppState extends State<StokesdriftApp> {
       theme: AppTheme.light,
       home: _showSplash
           ? SplashScreen(onComplete: _onSplashComplete)
-          : const MainTabs(),
+          : _showOnboarding
+              ? OnboardingScreen(onComplete: _onOnboardingComplete)
+              : const MainTabs(),
     );
   }
 }
