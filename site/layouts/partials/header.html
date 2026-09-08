@@ -1,0 +1,50 @@
+<header class="py-6 px-6 lg:px-12 flex justify-between items-center bg-surface" role="banner">
+  <div class="flex items-center gap-3">
+    <!-- Wave icon -->
+    <a href="/" class="flex items-center gap-3" aria-label="stokesdrift home">
+      <div class="w-9 h-9 bg-primary rounded-md flex items-center justify-center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 12C3.5 9 5 8 7 9C9 10 10 14 12 12C14 10 15 8 17 9C19 10 20.5 12 22 12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="19" cy="7" r="1.5" fill="white"/>
+        </svg>
+      </div>
+      <span class="font-display font-bold text-xl tracking-tight text-on-surface">stokesdrift</span>
+    </a>
+  </div>
+  <nav class="hidden md:flex gap-8 items-center" aria-label="Main navigation">
+    <a href="#features" class="font-sans text-sm font-semibold uppercase tracking-wider hover:text-tertiary transition-colors text-secondary">Features</a>
+    <a href="#how-it-works" class="font-sans text-sm font-semibold uppercase tracking-wider hover:text-tertiary transition-colors text-secondary">How It Works</a>
+    <a href="#pricing" class="font-sans text-sm font-semibold uppercase tracking-wider hover:text-tertiary transition-colors text-secondary">Pricing</a>
+    <a href="#faq" class="font-sans text-sm font-semibold uppercase tracking-wider hover:text-tertiary transition-colors text-secondary">FAQ</a>
+    <a href="{{ .Site.Params.appUrl }}/signup" class="px-6 py-2 bg-tertiary text-on-primary font-sans text-sm font-bold uppercase tracking-wider rounded-md transition-all hover:brightness-110">Get Started</a>
+  </nav>
+  <!-- Mobile menu button -->
+  <button id="mobile-menu-btn" class="md:hidden p-2 text-secondary hover:text-primary" aria-label="Open menu">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+    </svg>
+  </button>
+</header>
+
+<!-- Mobile menu -->
+<div id="mobile-menu" class="hidden md:hidden bg-surface border-t border-secondary/20 px-6 py-4">
+  <nav class="flex flex-col gap-4" aria-label="Mobile navigation">
+    <a href="#features" class="font-sans text-sm font-semibold uppercase tracking-wider text-secondary hover:text-tertiary">Features</a>
+    <a href="#how-it-works" class="font-sans text-sm font-semibold uppercase tracking-wider text-secondary hover:text-tertiary">How It Works</a>
+    <a href="#pricing" class="font-sans text-sm font-semibold uppercase tracking-wider text-secondary hover:text-tertiary">Pricing</a>
+    <a href="#faq" class="font-sans text-sm font-semibold uppercase tracking-wider text-secondary hover:text-tertiary">FAQ</a>
+    <a href="{{ .Site.Params.appUrl }}/signup" class="btn-primary text-center">Get Started</a>
+  </nav>
+</div>
+
+<script>
+  document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+  });
+  // Close mobile menu on link click
+  document.querySelectorAll('#mobile-menu a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      document.getElementById('mobile-menu').classList.add('hidden');
+    });
+  });
+</script>

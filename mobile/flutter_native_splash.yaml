@@ -1,0 +1,35 @@
+# flutter_native_splash configuration
+# Regenerate with: dart run flutter_native_splash:create
+#
+# This file documents the exact colours used for the native splash
+# so they stay in sync with the Surf Daybreak design system.
+
+flutter_native_splash:
+  # ─── Colours (Surf Daybreak) ────────────────────────────────────────────
+  color: "#DFF1EC"          # neutral — page background
+  color_dark: "#DFF1EC"    # same for dark (we use light-only)
+
+  # Brand accent (tertiary) for the brand image tint
+  # The brand image itself is an SVG with transparent background.
+  # When android_12 is used, the icon colour is tinted by the system.
+  color_android_12: "#DFF1EC"
+
+  # ─── Brand mark ──────────────────────────────────────────────────────────
+  # Path to an image that will be shown centred on the splash screen.
+  # android:  drawable/splash_brand.xml  (vector wave icon)
+  # ios:       LaunchScreen.storyboard    (labels + constraints)
+  image: assets/splash_brand.png
+
+  # ─── Android 12+ ─────────────────────────────────────────────────────────
+  android_12:
+    image: assets/splash_brand.png
+    color: "#DFF1EC"
+    icon_background_color: "#DFF1EC"
+
+  # ─── iOS ──────────────────────────────────────────────────────────────────
+  # The iOS storyboard is hand-crafted (see ios/Runner/Base.lproj/LaunchScreen.storyboard)
+  # and uses Auto-Layout constraints so no raster image is needed.
+  # This config entry exists purely to document the colours.
+
+  # ─── Web ──────────────────────────────────────────────────────────────────
+  # Not targeting web; skip.

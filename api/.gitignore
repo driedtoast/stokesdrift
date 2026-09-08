@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+.env.*
+*.db
+.dev.vars
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

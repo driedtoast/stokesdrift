@@ -1,0 +1,384 @@
+{{ define "main" }}
+
+<!-- ─── JSON-LD Structured Data for AEO/SEO ──────────────────────────────── -->
+<script type="application/ld+json">
+{{ "{\"@context\":\"https://schema.org\",\"@type\":\"SoftwareApplication\",\"name\":\"stokesdrift\",\"applicationCategory\":\"BusinessApplication\",\"operatingSystem\":\"iOS, Android\",\"description\":\"QR code equipment tracker for bands, event crews, and field teams. Track gear across venues with GPS scanning and offline sync.\",\"offers\":[{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"USD\",\"name\":\"Free\"},{\"@type\":\"Offer\",\"price\":\"9\",\"priceCurrency\":\"USD\",\"name\":\"Crew\"},{\"@type\":\"Offer\",\"price\":\"29\",\"priceCurrency\":\"USD\",\"name\":\"Enterprise\"}],\"featureList\":[\"QR code generation for every item\",\"GPS location marking when scanning\",\"Checkout scan to catch missing items\",\"Offline-first with automatic sync\",\"Location history and breadcrumb trail\",\"Team collaboration with conflict-free sync\"]}" | safeJS }}
+</script>
+
+<script type="application/ld+json">
+{{ "{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"How does stokesdrift track equipment?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"stokesdrift generates a unique QR code for each item you register. When you scan that QR code with the mobile app, it automatically records the item's GPS location and timestamp. You can also manually set an address for items being shipped remotely.\"}},{\"@type\":\"Question\",\"name\":\"What is a checkout scan?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"A checkout scan compares the items you scanned at load-in against the items you scan at load-out. It instantly shows you anything missing so you never leave gear behind at a venue.\"}},{\"@type\":\"Question\",\"name\":\"Does stokesdrift work without internet?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"stokesdrift is offline-first. All scans and item changes are saved to a local database on your phone. When you reconnect, the app syncs automatically using conflict-free CRDT technology.\"}},{\"@type\":\"Question\",\"name\":\"How much does stokesdrift cost?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"stokesdrift is free for solo use with up to 100 items. The Crew plan costs 9 dollars per month for up to 5 team members with unlimited items. The Enterprise plan costs 29 dollars per month for unlimited members, custom fields, and API access.\"}},{\"@type\":\"Question\",\"name\":\"Who is stokesdrift for?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"stokesdrift is built for touring bands, event production crews, AV teams, photo and video production, and anyone managing gear that moves between locations. It is designed for people who need to know where their stuff is right now, not just what they own.\"}},{\"@type\":\"Question\",\"name\":\"What makes stokesdrift different from other asset trackers?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Most asset trackers are built for warehouses and stationary inventory. stokesdrift is built for things that move. The checkout scan catches missing items before you leave, the offline-first design works at festivals and remote venues with no cell service, and GPS breadcrumbs show the full journey of each item.\"}}]}" | safeJS }}
+</script>
+
+<!-- ─── Hero ─────────────────────────────────────────────────────────────── -->
+<section class="relative overflow-hidden" aria-label="stokesdrift hero">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 py-24 lg:py-36">
+    <div class="max-w-3xl">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-semibold text-on-surface leading-tight" style="letter-spacing:-0.02em">
+        Never leave gear<br />
+        <span class="text-tertiary">behind again.</span>
+      </h1>
+      <p class="mt-6 text-lg text-secondary leading-relaxed max-w-2xl">
+        stokesdrift uses QR codes and GPS to track your equipment across venues, warehouses, and job sites. Scan items in, scan them out, and know instantly if anything is missing — even without cell service.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4">
+        <a
+          href="{{ .Site.Params.appUrl }}/signup"
+          class="btn-primary inline-flex items-center justify-center px-8 py-3 text-base"
+        >
+          Get Started Free
+        </a>
+        <a
+          href="#how-it-works"
+          class="btn-ghost inline-flex items-center justify-center px-8 py-3 text-base"
+        >
+          See How It Works
+        </a>
+      </div>
+      <p class="mt-4 text-sm text-secondary">
+        Free to start · No credit card required · Works offline
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Social Proof ────────────────────────────────────────────────────── -->
+<section class="bg-primary py-6" aria-label="Social proof">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="flex flex-wrap justify-center gap-x-12 gap-y-4 items-center text-on-primary/70 text-sm">
+      <span class="font-semibold text-on-primary/90">Built for:</span>
+      <span>🎸 Touring Bands</span>
+      <span>🎬 Production Crews</span>
+      <span>📸 Photo &amp; Video Teams</span>
+      <span>🔧 Field Service Teams</span>
+      <span>🏫 Schools &amp; Churches</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Features ────────────────────────────────────────────────────────── -->
+<section id="features" class="bg-surface" aria-label="Features">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 py-24">
+    <h2 class="text-3xl font-display font-semibold text-on-surface text-center">
+      Track everything, lose nothing
+    </h2>
+    <p class="mt-4 text-secondary text-center max-w-2xl mx-auto">
+      Purpose-built for people who move gear for a living. Not a warehouse tool
+      repurposed for the field.
+    </p>
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="card">
+        <div class="w-10 h-10 bg-tertiary/15 rounded-lg flex items-center justify-center mb-4">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M7 8h.01M12 8h.01M17 8h.01M7 12h.01M12 12h.01M17 12h.01M7 16h.01M12 16h.01M17 16h.01"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-display font-semibold text-on-surface">QR Code Generation</h3>
+        <p class="mt-2 text-sm text-secondary">
+          Create an item and a unique QR code is generated automatically. Print it, stick it on
+          your case, and scan it anytime. Every item gets a scannable identity in seconds.
+        </p>
+      </div>
+      <div class="card">
+        <div class="w-10 h-10 bg-tertiary/15 rounded-lg flex items-center justify-center mb-4">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-display font-semibold text-on-surface">GPS Location Marking</h3>
+        <p class="mt-2 text-sm text-secondary">
+          Scan an item's QR code and your phone's GPS pinpoints where it is. stokesdrift
+          records every check-in with coordinates, timestamps, and address — creating a breadcrumb trail of where your gear has been.
+        </p>
+      </div>
+      <div class="card">
+        <div class="w-10 h-10 bg-tertiary/15 rounded-lg flex items-center justify-center mb-4">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h7"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-display font-semibold text-on-surface">Checkout Scan</h3>
+        <p class="mt-2 text-sm text-secondary">
+          The feature that saves your night. Before you leave a venue, tap "Check Out" and
+          scan every item. stokesdrift instantly shows you what hasn't been scanned yet — so nothing gets left behind.
+        </p>
+      </div>
+      <div class="card">
+        <div class="w-10 h-10 bg-tertiary/15 rounded-lg flex items-center justify-center mb-4">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-display font-semibold text-on-surface">Named Locations</h3>
+        <p class="mt-2 text-sm text-secondary">
+          Define locations by GPS zone — Main Stage, Warehouse B, Studio 3 — or by address for items being shipped. Items are automatically grouped when scanned nearby.
+        </p>
+      </div>
+      <div class="card">
+        <div class="w-10 h-10 bg-tertiary/15 rounded-lg flex items-center justify-center mb-4">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-display font-semibold text-on-surface">Location History</h3>
+        <p class="mt-2 text-sm text-secondary">
+          Every scan creates a timestamped location entry. See the full journey of any
+          item — from the warehouse to the venue and back again. Know exactly where something was and when.
+        </p>
+      </div>
+      <div class="card">
+        <div class="w-10 h-10 bg-tertiary/15 rounded-lg flex items-center justify-center mb-4">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF7A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-display font-semibold text-on-surface">Team Sync</h3>
+        <p class="mt-2 text-sm text-secondary">
+          Invite your crew. Everyone scans, everyone sees updates. Conflict-free CRDT sync
+          means no overwrites — even when you're offline at a festival in the middle of nowhere.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── How It Works ─────────────────────────────────────────────────────── -->
+<section id="how-it-works" class="bg-neutral" aria-label="How it works">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 py-24">
+    <h2 class="text-3xl font-display font-semibold text-on-surface text-center">
+      How it works
+    </h2>
+    <p class="mt-4 text-secondary text-center max-w-2xl mx-auto">
+      Three steps. No setup friction. Start tracking in under a minute.
+    </p>
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <!-- Step 1 -->
+      <div class="text-center">
+        <div class="w-16 h-16 bg-tertiary text-on-primary rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="font-display font-semibold text-2xl">1</span>
+        </div>
+        <h3 class="text-lg font-display font-semibold text-on-surface">Add items</h3>
+        <p class="mt-2 text-sm text-secondary">
+          Enter a name and optional details. A QR code is generated
+          automatically — print it, label it, stick it on your case.
+        </p>
+      </div>
+      <!-- Step 2 -->
+      <div class="text-center">
+        <div class="w-16 h-16 bg-tertiary text-on-primary rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="font-display font-semibold text-2xl">2</span>
+        </div>
+        <h3 class="text-lg font-display font-semibold text-on-surface">Scan &amp; locate</h3>
+        <p class="mt-2 text-sm text-secondary">
+          Point your phone at the QR code. stokesdrift reads the item, grabs your GPS
+          coordinates, and logs the location instantly. Works offline too.
+        </p>
+      </div>
+      <!-- Step 3 -->
+      <div class="text-center">
+        <div class="w-16 h-16 bg-tertiary text-on-primary rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="font-display font-semibold text-2xl">3</span>
+        </div>
+        <h3 class="text-lg font-display font-semibold text-on-surface">Check out &amp; go</h3>
+        <p class="mt-2 text-sm text-secondary">
+          Before leaving a venue, tap "Check Out" and scan everything.
+          Instantly see what's missing. Never leave a cable behind again.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Pain Points ──────────────────────────────────────────────────────── -->
+<section class="bg-surface" aria-label="Pain points">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 py-24">
+    <h2 class="text-3xl font-display font-semibold text-on-surface text-center">
+      Sound familiar?
+    </h2>
+    <p class="mt-4 text-secondary text-center max-w-2xl mx-auto">
+      If you've ever said any of these, stokesdrift was built for you.
+    </p>
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <div class="card border-l-4 border-l-tertiary">
+        <p class="text-on-surface font-medium">"Where's the other SM58?"</p>
+        <p class="mt-1 text-sm text-secondary">30 minutes searching for a mic that should have been in the case.</p>
+      </div>
+      <div class="card border-l-4 border-l-tertiary">
+        <p class="text-on-surface font-medium">"Did we load out the DI box?"</p>
+        <p class="mt-1 text-sm text-secondary">Nobody can remember. It's 2 AM and you just want to go home.</p>
+      </div>
+      <div class="card border-l-4 border-l-tertiary">
+        <p class="text-on-surface font-medium">"I think we shipped that to Denver."</p>
+        <p class="mt-1 text-sm text-secondary">A spreadsheet nobody updates and three people have different versions of.</p>
+      </div>
+      <div class="card border-l-4 border-l-tertiary">
+        <p class="text-on-surface font-medium">"We lost another cable at the festival."</p>
+        <p class="mt-1 text-sm text-secondary">No cell service in the field, so tracking apps are useless until it's too late.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Use Cases ────────────────────────────────────────────────────────── -->
+<section id="use-cases" class="bg-neutral" aria-label="Use cases">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 py-24">
+    <h2 class="text-3xl font-display font-semibold text-on-surface text-center">
+      Built for the field, not the warehouse
+    </h2>
+    <p class="mt-4 text-secondary text-center max-w-2xl mx-auto">
+      stokesdrift is designed for things that move — not things that sit on shelves.
+    </p>
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div class="card">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="text-2xl">🎸</span>
+          <h3 class="text-lg font-display font-semibold text-on-surface">Touring Bands &amp; Musicians</h3>
+        </div>
+        <p class="text-sm text-secondary">
+          Track cables, microphones, pedals, and cases across venues. Scan before load-in, scan at load-out.
+          The checkout scan catches every missing item before you leave the venue.
+        </p>
+      </div>
+      <div class="card">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="text-2xl">🎬</span>
+          <h3 class="text-lg font-display font-semibold text-on-surface">Event &amp; AV Production</h3>
+        </div>
+        <p class="text-sm text-secondary">
+          Hundreds of cases moving between venues. $50K+ in gear on every truck.
+          Know what's at each location and what hasn't come back yet.
+        </p>
+      </div>
+      <div class="card">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="text-2xl">📸</span>
+          <h3 class="text-lg font-display font-semibold text-on-surface">Photo &amp; Video Production</h3>
+        </div>
+        <p class="text-sm text-secondary">
+          Lenses, bodies, and lighting gear that move between studios and shoots.
+          Expensive items that can't be replaced mid-production.
+        </p>
+      </div>
+      <div class="card">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="text-2xl">🔧</span>
+          <h3 class="text-lg font-display font-semibold text-on-surface">Field Service Teams</h3>
+        </div>
+        <p class="text-sm text-secondary">
+          Tools in trucks across multiple job sites. Set an address for items being
+          shipped to remote locations. Full history, zero guesswork.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Pricing ──────────────────────────────────────────────────────────── -->
+<section id="pricing" class="bg-surface" aria-label="Pricing">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 py-24">
+    <h2 class="text-3xl font-display font-semibold text-on-surface text-center">
+      Simple, transparent pricing
+    </h2>
+    <p class="mt-4 text-secondary text-center max-w-2xl mx-auto">
+      Start free, upgrade when your crew grows.
+    </p>
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+      <div class="card text-center">
+        <h3 class="text-lg font-display font-semibold text-on-surface">Free</h3>
+        <div class="mt-4 text-3xl font-bold text-on-surface">$0<span class="text-sm font-normal text-secondary">/mo</span></div>
+        <ul class="mt-6 space-y-2 text-sm text-secondary text-left">
+          <li>✓ Up to 100 items</li>
+          <li>✓ QR code generation</li>
+          <li>✓ GPS scan &amp; mark</li>
+          <li>✓ Checkout scan</li>
+          <li>✓ Location history</li>
+          <li>✓ Single user</li>
+        </ul>
+        <a href="{{ .Site.Params.appUrl }}/signup" class="btn-ghost mt-6 block text-center">Get Started</a>
+      </div>
+      <div class="card text-center border-2 border-tertiary relative">
+        <div class="font-sans text-xs font-semibold uppercase tracking-widest text-tertiary mb-2">Popular</div>
+        <h3 class="text-lg font-display font-semibold text-on-surface">Crew</h3>
+        <div class="mt-4 text-3xl font-bold text-tertiary">$9<span class="text-sm font-normal text-secondary">/mo</span></div>
+        <ul class="mt-6 space-y-2 text-sm text-secondary text-left">
+          <li>✓ Unlimited items</li>
+          <li>✓ Up to 5 team members</li>
+          <li>✓ Location zones</li>
+          <li>✓ Offline sync</li>
+          <li>✓ Priority support</li>
+        </ul>
+        <a href="{{ .Site.Params.appUrl }}/signup" class="btn-primary mt-6 block text-center">Start Free Trial</a>
+      </div>
+      <div class="card text-center">
+        <h3 class="text-lg font-display font-semibold text-on-surface">Enterprise</h3>
+        <div class="mt-4 text-3xl font-bold text-on-surface">$29<span class="text-sm font-normal text-secondary">/mo</span></div>
+        <ul class="mt-6 space-y-2 text-sm text-secondary text-left">
+          <li>✓ Everything in Crew</li>
+          <li>✓ Unlimited members</li>
+          <li>✓ Custom fields</li>
+          <li>✓ API access</li>
+          <li>✓ Dedicated support</li>
+        </ul>
+        <a href="{{ .Site.Params.appUrl }}/signup" class="btn-ghost mt-6 block text-center">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQ for AEO ──────────────────────────────────────────────────────── -->
+<section id="faq" class="bg-neutral" aria-label="Frequently asked questions">
+  <div class="max-w-3xl mx-auto px-6 lg:px-12 py-24">
+    <h2 class="text-3xl font-display font-semibold text-on-surface text-center">
+      Frequently asked questions
+    </h2>
+    <div class="mt-12 space-y-6">
+      <details class="card" open>
+        <summary class="font-display font-semibold text-on-surface cursor-pointer">How does stokesdrift track equipment?</summary>
+        <p class="mt-3 text-sm text-secondary">stokesdrift generates a unique QR code for each item you register. When you scan that QR code with the mobile app, it automatically records the item's GPS location and timestamp. You can also manually set an address for items being shipped remotely.</p>
+      </details>
+      <details class="card">
+        <summary class="font-display font-semibold text-on-surface cursor-pointer">What is a checkout scan?</summary>
+        <p class="mt-3 text-sm text-secondary">A checkout scan compares the items you scanned at load-in against the items you scan at load-out. It instantly shows you anything missing so you never leave gear behind at a venue. It's the most valuable feature for touring bands and event crews.</p>
+      </details>
+      <details class="card">
+        <summary class="font-display font-semibold text-on-surface cursor-pointer">Does stokesdrift work without internet?</summary>
+        <p class="mt-3 text-sm text-secondary">Yes. stokesdrift is offline-first. All scans and item changes are saved to a local database on your phone. When you reconnect, the app syncs automatically using conflict-free CRDT technology. This means multiple team members can scan independently and everything merges cleanly.</p>
+      </details>
+      <details class="card">
+        <summary class="font-display font-semibold text-on-surface cursor-pointer">How much does stokesdrift cost?</summary>
+        <p class="mt-3 text-sm text-secondary">stokesdrift is free for solo use with up to 100 items. The Crew plan costs $9/month for up to 5 team members with unlimited items. The Enterprise plan costs $29/month for unlimited members, custom fields, and API access.</p>
+      </details>
+      <details class="card">
+        <summary class="font-display font-semibold text-on-surface cursor-pointer">Who is stokesdrift for?</summary>
+        <p class="mt-3 text-sm text-secondary">stokesdrift is built for touring bands, event production crews, AV teams, photo and video production, and anyone managing gear that moves between locations. It's designed for people who need to know where their stuff is right now — not just what they own.</p>
+      </details>
+      <details class="card">
+        <summary class="font-display font-semibold text-on-surface cursor-pointer">What makes stokesdrift different from other asset trackers?</summary>
+        <p class="mt-3 text-sm text-secondary">Most asset trackers are built for warehouses and stationary inventory. stokesdrift is built for things that move. The checkout scan catches missing items before you leave, the offline-first design works at festivals and remote venues with no cell service, and GPS breadcrumbs show the full journey of each item.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ──────────────────────────────────────────────────────────────── -->
+<section class="bg-primary" aria-label="Call to action">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 py-24 text-center">
+    <h2 class="text-3xl sm:text-4xl font-display font-semibold text-on-primary leading-tight">
+      Stop losing track of your gear.
+    </h2>
+    <p class="mt-4 text-on-primary/80 max-w-xl mx-auto text-lg">
+      stokesdrift is free to start. Add your first item in under a minute.
+    </p>
+    <a
+      href="{{ .Site.Params.appUrl }}/signup"
+      class="btn-primary mt-8 inline-flex items-center justify-center px-10 py-4 text-base"
+    >
+      Get Started Free
+    </a>
+  </div>
+</section>
+{{ end }}

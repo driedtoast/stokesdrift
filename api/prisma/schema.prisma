@@ -1,0 +1,135 @@
+// StokeDrift — Prisma Schema
+// PostgreSQL with CRDT-compatible columns for sync support
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Auth & Teams ────────────────────────────────────────────────────────────
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  name          String
+  avatarUrl     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  memberships   TeamMember[]
+  ownedTeams    Team[]    @relation("TeamOwner")
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+model Team {
+  id          String   @id @default(uuid())
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  ownerId     String
+  owner       User     @relation("TeamOwner", fields: [ownerId], references: [id])
+
+  memberships TeamMember[]
+  items       Item[]
+  locations   Location[]
+
+  @@map("teams")
+}
+
+model TeamMember {
+  id       String        @id @default(uuid())
+  role     TeamRole       @default(MEMBER)
+  joinedAt DateTime      @default(now())
+
+  userId   String
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  teamId   String
+  team     Team          @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, teamId])
+  @@map("team_members")
+}
+
+enum TeamRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+// ─── Items ──────────────────────────────────────────────────────────────────
+
+model Item {
+  id           String            @id @default(uuid())
+  name         String
+  details      String            @default("")
+  customFields Json              @default("{}")
+  qrCodeData   String            @unique
+  isDeleted    Boolean            @default(false)
+  hlc          String?            // CRDT hybrid logical clock
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  teamId       String
+  team         Team               @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  locations    ItemLocation[]
+
+  @@map("items")
+}
+
+// ─── Locations ──────────────────────────────────────────────────────────────
+
+model Location {
+  id        String           @id @default(uuid())
+  name      String
+  latitude  Float?
+  longitude Float?
+  radius    Float             @default(50)
+  address   String           @default("")
+  isDeleted Boolean           @default(false)
+  hlc       String?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  teamId    String
+  team      Team              @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  items     ItemLocation[]
+
+  @@map("locations")
+}
+
+// ─── Item Locations (scan history) ────────────────────────────────────────
+
+model ItemLocation {
+  id         String    @id @default(uuid())
+  latitude   Float?
+  longitude  Float?
+  address    String    @default("")
+  notes      String    @default("")
+  isDeleted  Boolean   @default(false)
+  hlc        String?
+  timestamp  DateTime  @default(now())
+
+  itemId     String
+  item       Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  locationId String?
+  location   Location? @relation(fields: [locationId], references: [id], onDelete: SetNull)
+
+  @@map("item_locations")
+}

@@ -1,0 +1,18 @@
+baseURL = 'https://stokedrift.com/'
+languageCode = 'en-us'
+title = 'stokesdrift — QR Code Equipment Tracker for Bands, Crews & Events'
+
+[params]
+  description = 'Track gear across venues with QR codes and GPS. Scan items in, scan them out, and never leave equipment behind. Free to start, works offline.'
+  appUrl = 'https://app.stokedrift.com'
+
+# Enable sitemap and RSS for SEO
+[sitemap]
+  changefreq = 'weekly'
+  filename = 'sitemap.xml'
+  priority = 1.0
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

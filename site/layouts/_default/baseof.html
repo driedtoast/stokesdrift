@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="{{ .Site.LanguageCode }}">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary SEO -->
+    <title>{{ if .IsHome }}stokesdrift — QR Code Equipment Tracker for Bands, Crews & Events{{ else }}{{ .Title }} | stokesdrift{{ end }}</title>
+    <meta name="description" content="{{ if .IsHome }}Track gear across venues with QR codes and GPS. Scan items in, scan them out, and never leave equipment behind. Free to start, works offline.{{ else }}{{ .Site.Params.description }}{{ end }}" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="{{ .Site.BaseURL }}" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="stokesdrift" />
+    <meta property="og:title" content="{{ if .IsHome }}stokesdrift — Never Leave Gear Behind{{ else }}{{ .Title }} | stokesdrift{{ end }}" />
+    <meta property="og:description" content="{{ if .IsHome }}QR code equipment tracker for bands, event crews, and field teams. Scan items in, scan them out. Works offline.{{ else }}{{ .Site.Params.description }}{{ end }}" />
+    <meta property="og:url" content="{{ .Site.BaseURL }}" />
+    <meta property="og:image" content="{{ .Site.BaseURL }}og-image.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ if .IsHome }}stokesdrift — Never Leave Gear Behind{{ else }}{{ .Title }} | stokesdrift{{ end }}" />
+    <meta name="twitter:description" content="{{ if .IsHome }}QR code equipment tracker for bands, event crews, and field teams.{{ else }}{{ .Site.Params.description }}{{ end }}" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Recoleta:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    {{ $styles := resources.Get "css/main.css" | postCSS }}
+    {{ if hugo.IsServer }}
+      <link rel="stylesheet" href="{{ $styles.RelPermalink }}" />
+    {{ else }}
+      {{ $styles = $styles | minify | fingerprint }}
+      <link
+        rel="stylesheet"
+        href="{{ $styles.RelPermalink }}"
+        integrity="{{ $styles.Data.Integrity }}"
+      />
+    {{ end }}
+  </head>
+  <body class="bg-neutral text-on-surface font-sans">
+    {{ partial "header.html" . }}
+    <main>
+      {{ block "main" . }}{{ end }}
+    </main>
+    {{ partial "footer.html" . }}
+  </body>
+</html>
