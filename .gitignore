@@ -45,4 +45,7 @@ android/app/release/
 
 # Generated
 *.g.dart
-*.freezed.dart
+*.freezed.dartsite/
+app/
+api/
+mobile/
